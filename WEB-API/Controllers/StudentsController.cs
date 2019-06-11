@@ -79,7 +79,7 @@ namespace WEB_API.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(student);
         }
 
         // POST: api/Students
