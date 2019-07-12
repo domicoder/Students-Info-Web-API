@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using PERSISTENCE;
 using SERVICES;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace WEB_API
 {
@@ -34,6 +35,20 @@ namespace WEB_API
             services.AddTransient<IStudentService, StudentService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // Adding Swagger to API
+            services.AddSwaggerGen(x => {
+                x.SwaggerDoc("v1", new Info
+                {
+                    Version = "v1",
+                    Title = "Students API",
+                    Description = "Students API made by ASP.NET CORE 2.1",
+                    Contact = new Contact() {
+                           Name = "Yander Sanchez",
+                           Email = "ysanchez.business@gmail.com",
+                           Url = "https://github.com/zardecs"
+                    }
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +65,10 @@ namespace WEB_API
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseSwagger();
+            app.UseSwaggerUI(x => {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "Students API - v1");
+            });
         }
     }
 }
